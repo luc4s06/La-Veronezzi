@@ -1,0 +1,8 @@
+const header=document.getElementById('header'),menuToggle=document.getElementById('menuToggle'),nav=document.getElementById('nav'),form=document.getElementById('contactForm'),toast=document.getElementById('toast');
+window.addEventListener('scroll',()=>header.classList.toggle('scrolled',window.scrollY>15),{passive:true});
+menuToggle?.addEventListener('click',()=>{const open=nav.classList.toggle('open');menuToggle.setAttribute('aria-expanded',String(open));menuToggle.setAttribute('aria-label',open?'Fechar menu':'Abrir menu')});
+document.querySelectorAll('.nav a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));
+const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+const navLinks=[...document.querySelectorAll('.nav a[href^="#"]')];const sectionObserver=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)navLinks.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id))}),{rootMargin:'-35% 0px -55% 0px'});document.querySelectorAll('main section[id]').forEach(s=>sectionObserver.observe(s));
+form?.addEventListener('submit',e=>{e.preventDefault();const d=new FormData(form),text=`Olá, La Veronezzi! Meu nome é ${d.get('nome')}.\n\nTelefone: ${d.get('telefone')}\nTipo de projeto: ${d.get('projeto')}\n\n${d.get('mensagem')}`;window.open(`https://wa.me/558630851346?text=${encodeURIComponent(text)}`,'_blank','noopener');toast.textContent='Abrindo o WhatsApp...';toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),3000)});
+document.getElementById('year').textContent=new Date().getFullYear();
